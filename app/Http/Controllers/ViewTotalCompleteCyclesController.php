@@ -14,7 +14,8 @@ class ViewTotalCompleteCyclesController extends Controller
      */
     public function index()
     {
-        $cycles = Cycle::all();
+        $cycles = Cycle::where('id', 1)->pluck('number_of_cycle');
+        //return $cycles; //returns in json
         return view('pages.cycles')->with('cycles',$cycles);
     }
 

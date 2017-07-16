@@ -5,12 +5,15 @@
     @if(count($cycles)>0)
         @foreach($cycles as $cycle)
             <div class="well">
-                <p>ID: {{$cycle->id}} <br/>
-                    Total cycles: {{$cycle->number_of_cycle}}
+                <p>
+                    Total cycles: {{$cycle}}
                 </p>
+                {{-- <p>
+                    Total cycles: {{$cycle->number_of_cycle}}
+                </p> --}}
             </div>
         @endforeach
-    @else
+    @else 
         <p>No cycles found</p>
     @endif
 @endsection
