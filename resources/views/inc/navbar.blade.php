@@ -13,6 +13,7 @@
           <ul class="nav navbar-nav">
             <li><a href="/">Home</a></li>
             <li><a href="/cycles">Total Cycles</a></li>
+            <li><a href="/placements">Total Placements</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

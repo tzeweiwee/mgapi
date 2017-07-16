@@ -13,3 +13,4 @@
 
 Route::get('/', 'PagesController@index');
 Route::resource('cycles','ViewTotalCompleteCyclesController');
+Route::resource('placements','ViewTotalPlacementsInSystemController');
