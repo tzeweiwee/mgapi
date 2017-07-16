@@ -14,6 +14,7 @@
             <li><a href="/">Home</a></li>
             <li><a href="/cycles">Total Cycles</a></li>
             <li><a href="/placements">Total Placements</a></li>
+            <li><a href="/users">Users</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
