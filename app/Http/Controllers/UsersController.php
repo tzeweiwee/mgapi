@@ -17,19 +17,9 @@ class UsersController extends Controller
         //add $id in the index()
         $users = User::all();
        
-       // $user = User::where('id', $id)->pluck('status'); //$id is the variable provided when user logs in
-       // return $user; //return json for status of specific user
-        return view('pages.users')->with('users',$users);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        //$user = User::where('id', $id)->pluck('status'); //$id is the variable provided when user logs in
+        // return $user; //return json for status of specific user
+        return view('pages.users')->with('users', $users);
     }
 
     /**
@@ -53,17 +43,6 @@ class UsersController extends Controller
     {
         $user = User::find($id);
         return view('pages.show')->with('user',$user);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
