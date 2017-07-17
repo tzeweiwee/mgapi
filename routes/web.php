@@ -11,6 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'PagesController@index');
+Route::resource('cycles','ViewTotalCompleteCyclesController');
+Route::resource('placements','ViewTotalPlacementsInSystemController');
+Route::resource('users','UsersController');
