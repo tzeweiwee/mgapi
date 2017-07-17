@@ -177,6 +177,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        //Laravel Passport service Provider
+        Laravel\Passport\PassportServiceProvider::class,
+
     ],
 
     /*
