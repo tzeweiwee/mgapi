@@ -12,6 +12,13 @@
 */
 
 Route::get('/', 'PagesController@index');
-Route::resource('cycles','ViewTotalCompleteCyclesController');
-Route::resource('placements','ViewTotalPlacementsInSystemController');
-Route::resource('users','UsersController');
+// Route::resource('cycles','Cycles\ViewTotalCompleteCyclesController');
+// Route::resource('placements','Placements\ViewTotalPlacementsInSystemController');
+// Route::resource('users','UsersController');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+//temporarily placing the routes here, in later dev we have to use api.php
+Route::get('placements/total',"Placements\ViewTotalPlacementsInSystemController@index");
+Route::get('cycles/total',"Cycles\ViewTotalCompleteCyclesController@index");
+
