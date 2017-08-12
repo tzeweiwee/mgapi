@@ -12,7 +12,7 @@ class ViewUserDownlinesController extends Controller
     {
         $ic = $data->ic;
         $downlines = Downlines::where('parent_user_ic', $ic)->get();
-        return $downlines; //returns in json
+        return $downlines->toJson(); //returns in json
     }
 
 }

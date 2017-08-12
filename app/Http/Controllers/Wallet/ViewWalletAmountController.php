@@ -12,7 +12,7 @@ class ViewWalletAmountController extends Controller
     {
         $ic = $data->ic;
         $user_status = Wallet::where('user_ic', $ic)->pluck('amount');
-        return $user_status; //returns in json
+        return $user_status->toJson(); //returns in json
     }
 
 }

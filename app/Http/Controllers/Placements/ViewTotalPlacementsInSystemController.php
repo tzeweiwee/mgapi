@@ -16,7 +16,7 @@ class ViewTotalPlacementsInSystemController extends Controller
     public function index()
     {
         $placements = Placement::count();
-        return $placements; //returns in json
+        return $placements->toJson(); //returns in json
     }
 
 }

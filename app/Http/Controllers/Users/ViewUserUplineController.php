@@ -12,7 +12,7 @@ class ViewUserUplineController extends Controller
     {
         $ic = $data->ic;
         $uplineUserIC = Users::where('ic', $ic)->pluck('upline_user');
-        return $uplineUserIC; //returns in json
+        return $uplineUserIC->toJson(); //returns in json
     }
 
 }

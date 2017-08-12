@@ -12,7 +12,7 @@ class ViewUserRequestsController extends Controller
     {
         $ic = $data->ic;
         $payouts = PayoutRequests::where('user_ic', $ic)->get();
-        return $payouts; //returns in json
+        return $payouts->toJson(); //returns in json
     }
 
 }

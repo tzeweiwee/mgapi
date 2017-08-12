@@ -12,7 +12,7 @@ class ViewUserStatusController extends Controller
     {
         $ic = $data->ic;
         $user_status = Users::where('ic', $ic)->pluck('status');
-        return $user_status; //returns in json
+        return $user_status->toJson(); //returns in json
     }
 
 }
