@@ -21,7 +21,7 @@ use Illuminate\Http\Request;
 
 Route::post('auth/register', 'Auth\UserController@register');
 Route::post('auth/login', 'Auth\UserController@login');
-Route::group(['middleware' => 'jwt.auth'], function(){
+// Route::group(['middleware' => 'jwt.auth'], function(){
     Route::get('placements/total',"Placements\ViewTotalPlacementsInSystemController@index");
     Route::get('cycles/total',"Cycles\ViewTotalCompleteCyclesController@index");
     Route::get('users/{ic}/status', ['uses' =>"Users\ViewUserStatusController@index"]);
@@ -32,5 +32,13 @@ Route::group(['middleware' => 'jwt.auth'], function(){
     Route::get('users/{ic}/status', ['uses' =>"Users\ViewUserStatusController@index"]);
     Route::get('/commissions/{ic}/upline', ['uses' =>"Commissions\ViewUserUplineCommissionController@index"]);
     Route::get('/commissions/{ic}/downlines', ['uses' =>"Commissions\ViewUserDownlinesCommissionController@index"]);
-    //Route::get('/credit/{ic}/placements', ['uses' =>"Credit\ViewUserCreditPlacementController@index"]);
-});
+    Route::get('/credit/{ic}/placements', ['uses' =>"Credit\ViewUserCreditPlacementController@index"]);
+
+    //transaction history
+    Route::resource('/transactionhistory', 'TransactionHistory\TransactionHistoryController', 
+        ['only' => ['update', 'store', 'destroy']]);
+    Route::get('/transactionhistory/requestpayout/{ic}', ['uses' =>"TransactionHistory\UserRequestPayoutController@index"]);
+    Route::get('/transactionhistory/payouttransaction/{ic}', ['uses' =>"TransactionHistory\UserPayoutTransactionController@index"]);
+    Route::get('/transactionhistory/creditaddin/{ic}', ['uses' =>"TransactionHistory\UserCreditAddInController@index"]);
+    Route::get('/transactionhistory/{ic}', ['uses'=>'TransactionHistory\UserHistoryListController@index']);
+// });

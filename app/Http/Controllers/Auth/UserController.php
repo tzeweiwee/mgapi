@@ -9,6 +9,7 @@ use App\Users;
 
 use JWTAuth;
 use JWTAuthException;
+use App\Exceptions\Handler;
 
 class UserController extends Controller
 {   
@@ -19,18 +20,20 @@ class UserController extends Controller
     }
    
     public function register(Request $request){
-
-        if($request->get('ic') && $request->get('email') && $request->get('password')){
-            $user = $this->user->create([
-                'ic' => $request->get('ic'),
-                'email' => $request->get('email'),
-                'password' => bcrypt($request->get('password')),
-                'user_type' => "user",
-                'status' => "passive"
-            ]);
-             return response()->json(['status'=>true,'message'=>'User created successfully','data'=>$user]);
+        try{
+             if($request->get('ic') && $request->get('email') && $request->get('password')){
+                $user = $this->user->create([
+                    'ic' => $request->get('ic'),
+                    'email' => $request->get('email'),
+                    'password' => bcrypt($request->get('password')),
+                    'user_type' => "user",
+                    'status' => "passive"
+                ]);
+                return response()->json(['status'=>true,'message'=>'User created successfully','data'=>$user]);
+            }
+        } catch(Exception $e){
+            return response()->json(['status'=> false, 'message' => 'User creation unsuccessfully']); 
         }
-        return response()->json(['status'=> false, 'message' => 'User creation unsuccessfully']);
     }
     
     public function login(Request $request){

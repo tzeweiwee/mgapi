@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Placements;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Placement;
+use Illuminate\Database\QueryException;
 
 class ViewTotalPlacementsInSystemController extends Controller
 {
@@ -15,8 +16,13 @@ class ViewTotalPlacementsInSystemController extends Controller
      */
     public function index()
     {
-        $placements = Placement::count();
-        return $placements->toJson(); //returns in json
+        try{
+            $placements = Placement::count();
+            return $placements->toJson(); //returns in json
+        }catch(QueryException $e){
+            return json_encode(array("error" => $e));
+        }
+        
     }
 
 }
