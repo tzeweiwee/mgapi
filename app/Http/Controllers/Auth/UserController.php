@@ -30,6 +30,8 @@ class UserController extends Controller
                     'status' => "passive"
                 ]);
                 return response()->json(['status'=>true,'message'=>'User created successfully','data'=>$user]);
+            }else{
+                 return response()->json(['status'=>false,'message'=>'Missing data: Need IC, Email and Password to register']);
             }
         } catch(Exception $e){
             return response()->json(['status'=> false, 'message' => 'User creation unsuccessfully']); 

@@ -97,7 +97,7 @@ class TransactionHistoryController extends Controller
     public function update(Request $request, $id)
     {
         try{
-            $recordFound = count(TransactionHistory::where('id', $id)->pluck('id'));
+            $recordFound = count(TransactionHistory::where('id', $id)->first());
             if($request->user_ic && $request->type && $recordFound){
 
                 TransactionHistory::where('id', $id)->update($request->except(['user_ic', 'type']));
@@ -121,7 +121,7 @@ class TransactionHistoryController extends Controller
     public function destroy($id)
     {
         try{
-            $recordFound = count(TransactionHistory::where('id', $id)->pluck('id'));
+            $recordFound = count(TransactionHistory::where('id', $id)->first());
             if($recordFound){
 
                 $record = TransactionHistory::find($id);
