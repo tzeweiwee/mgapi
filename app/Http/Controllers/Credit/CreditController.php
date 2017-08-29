@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\TransactionHistory;
+namespace App\Http\Controllers\Credit;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\TransactionHistory;
-use DB;
-use Illuminate\Database\QueryException;
+use App\Credit;
 use Validator;
 
-class TransactionHistoryController extends Controller
+class CreditController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -40,37 +38,31 @@ class TransactionHistoryController extends Controller
     public function store(Request $request)
     {
         try{
-
             $validator = Validator::make($request->all(), [
-                'user_ic' => 'required',
-                'type' => 'required',
-                'amount' => 'required'
+                'ic' => 'required',
+                'placement_id' => 'required',
             ]);
 
             if($validator->fails()){
-               
-                return json_encode(array("error" => "Error inserting data: missing mandatory data"));
+                return json_encode(array('error' => 'missing mandatory fields'));
             }else{
-                $request->status ? $status = $request->status : $status = null;
-                $request->reference_id ? $reference_id = $request->reference_id : $reference_id = null;
-                $request->placement_id ? $reference_id = $request->placement_id : $placement_id = null;
+
+                $request->get('amount') ? $amount = $request->get('amount') : $amount = 1590.00;
 
                 $mappedData = array(
                     'user_ic' => $request->user_ic,
-                    'type' => $request->type,
-                    'amount' => $request->amount,
-                    'status' => $request->status,
-                    'reference_id' => $reference_id,
-                    'placement_id' => $placement_id,
+                    'amount' => $amount,
+                    'placement_id' => $request->placement_id,
                 );
 
-                $newData = new TransactionHistory($mappedData);
+                $newData = new Credit($mappedData);
+                $newData->save();
 
-                $newData->save(); 
-                return json_encode(array("success" => "successfully inserted data"));
+                return json_encode(array('success' => 'successfully created credit'));
             }
+
         }catch(QueryException $e){
-            return json_encode(array("error" => $e));
+            return json_encode(array('error' => 'error inserting data'));
         }
     }
 
@@ -105,25 +97,19 @@ class TransactionHistoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try{
-            $validator = Validator::make($request->all(), [
-                'user_ic' => 'required',
-                'type' => 'required',
-            ]);
+        $validator = Validator::make($request->all(), [
+            'user_ic' => 'required',
+        ]);
 
-            $recordFound = count(TransactionHistory::where('id', $id)->first());
-            
-            if($validator->fails() || !$recordFound){ 
-                return json_encode(array("error" => "Error updating data: missing mandatory data or invalid transaction id"));
-            }else{
-                TransactionHistory::where('id', $id)->update($request->except(['user_ic', 'type']));
-                return json_encode(array("success" => "successfully updated data"));
-            }
-               
-        }catch(QueryException $e){
-            return json_encode(array("error" => $e));
+        if($validator->fails()){
+            return json_encode(array('error' => 'missing mandatory fields'));
+        }else{
+
+            Credit::where('id', $id)->where('user_ic', $request->user_ic)->update($request->except(['user_ic', 'id']));
+            $newData->save();
+
+            return json_encode(array('success' => 'successfully created credit'));
         }
-        
     }
 
     /**
@@ -135,10 +121,10 @@ class TransactionHistoryController extends Controller
     public function destroy($id)
     {
         try{
-            $recordFound = count(TransactionHistory::where('id', $id)->first());
+            $recordFound = count(Credit::where('id', $id)->first());
             if($recordFound){
 
-                $record = TransactionHistory::find($id);
+                $record = Credit::find($id);
                 $record->delete();
 
                 return json_encode(array("success" => "successfully deleted data"));
