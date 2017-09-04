@@ -30,6 +30,14 @@ Route::post('/auth/login', 'Auth\UserController@login');
     Route::get('/wallet/{ic}/amount', ['uses' =>"Wallet\ViewWalletAmountController@index"]);
     Route::get('/commissions/{ic}/upline', ['uses' =>"Commissions\ViewUserUplineCommissionController@index"]);
     Route::get('/commissions/{ic}/downlines', ['uses' =>"Commissions\ViewUserDownlinesCommissionController@index"]);
+
+    //Pending Placements
+    Route::resource('/pendingPlacements', 'Placements\PendingPlacementsController',
+        ['only' => ['store', 'destroy']]);
+
+    //Placements
+    Route::resource('/placements', 'Placements\PlacementsController',
+        ['only' => ['store', 'update', 'destroy']]);
     
     //credits
     Route::resource('/credit', 'Credit\CreditController',
