@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Placement extends Model
 {
     //Table Name
-    //protected $table = 'cycle'; 
-    //public $primaryKey = 'id'; if wanna change the default primary key
+    protected $table = 'placements'; 
+    protected $fillable = ['user_ic', 'created_at', 'updated_at', 'status'];
 }
