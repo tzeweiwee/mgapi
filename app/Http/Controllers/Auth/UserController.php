@@ -13,7 +13,6 @@ use App\Exceptions\Handler;
 
 class UserController extends Controller
 {   
-
     private $user;
     public function __construct(Users $user){
         $this->user = $user;
@@ -31,7 +30,8 @@ class UserController extends Controller
                 ]);
                 return response()->json(['status'=>true,'message'=>'User created successfully','data'=>$user]);
             }else{
-                 return response()->json(['status'=>false,'message'=>'Missing data: Need IC, User Type and Password to register']);
+                 return response()->json(['status'=>false,'message'=>'Mis
+                 sing data: Need IC, User Type and Password to register']);
             }
         } catch(Exception $e){
             return response()->json(['status'=> false, 'message' => 'User creation unsuccessfully']); 
@@ -41,7 +41,6 @@ class UserController extends Controller
     public function login(Request $request){
         $credentials = $request->only('ic', 'password', 'user_type');
         $customClaims = ['user_type' => $request->input('user_type')];
-        var_dump($customClaims);
         $token = null;
         try {
            if (!$token = JWTAuth::attempt($credentials, $customClaims)) {
@@ -50,7 +49,16 @@ class UserController extends Controller
         } catch (JWTAuthException $e) {
             return response()->json(['failed_to_create_token'], 500);
         }
-        return response()->json(compact('token'));
+
+        if($request->input('user_type') === 'user'){
+            return response()->json(compact('token'));
+
+        }elseif($request->input('user_type') === 'admin'){
+            var_dump(compact('token')['token']);
+            return response()
+                    ->view('admin.home', ["tokenKey" => (compact('token'))])
+                    ->cookie('access_token', compact('token')['token'], 10080);
+        }
     }
 
     public function getAuthUser(Request $request){

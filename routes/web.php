@@ -11,11 +11,23 @@
 |
 */
 
-Route::get('/', 'PagesController@index');
-// Route::resource('cycles','Cycles\ViewTotalCompleteCyclesController');
-// Route::resource('placements','Placements\ViewTotalPlacementsInSystemController');
-// Route::resource('users','UsersController');
-//Auth::routes();
+ Route::get('/', 'PagesController@index');
+// Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/home', 'HomeController@index')->name('home');
-//temporarily placing the routes here, in later dev we have to use api.php
+
+
+//admin section
+Route::get('/admin/login', 'Auth\AdminController@showLogin');
+Route::get('mgapi/admin/home', 'Admin\AdminPagesController@index')->name('adminHome');
+
+//cycle
+Route::group(['middleware' => 'auth'], function(){ 
+    Route::get('mgapi/admin/showCycles', 'Admin\AdminPagesController@showCycles')->name('showCycles');
+    Route::get('mgapi/admin/registerNewUser', 'Admin\AdminPagesController@showUserRegistrationForm')->name('registerNewUserForm');
+    Route::get('mgapi/admin/removeUser', 'Admin\AdminPagesController@showUserRemovalForm')->name('removeUserForm');
+    Route::get('mgapi/admin/viewAllUsers', 'Admin\AdminPagesController@showAllUsers')->name('viewAllUsers');
+    Route::get('mgapi/admin/showAllTransactionHistory', 'Admin\AdminPagesController@showAllTransactionHistory')->name('showAllTransactionHistory');
+    Route::get('mgapi/admin/showAllWallet', 'Admin\AdminPagesController@showAllWallet')->name('showAllWallet');
+});
+
+Auth::routes();

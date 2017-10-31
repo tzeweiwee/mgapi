@@ -17,12 +17,11 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-//admin section
-Route::get('/admin/login', 'Auth\AdminController@showLogin');
-
-Route::post('/auth/register', 'Auth\UserController@register');
+Route::post('/auth/register', ['as' => '/auth/register', 'uses' => 'Auth\UserController@register']);
 Route::post('/auth/login',  ['as' => '/auth/login', 'uses' => 'Auth\UserController@login']);
 // Route::group(['middleware' => 'jwt.auth'], function(){ 
+
+    //admin stuff
     Route::get('/placements/total',"Placements\ViewTotalPlacementsInSystemController@index");
     Route::get('/cycles/total',"Cycles\ViewTotalCompleteCyclesController@index");
     Route::get('/users/{ic}/status', ['uses' =>"Users\ViewUserStatusController@index"]);

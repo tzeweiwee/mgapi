@@ -1,52 +1,68 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-<style>
-    .loginHeader{
-        text-align: center;
-    }
-
-    .loginWrapper{
-        margin: 40px 0 40px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    #loginSection{
-        width: 20%;
-    }
-
-    .submitButton{
-        float: right;
-    }
-
-    @media only screen and (max-width: 500px) {
-        #loginSection {
-            width: 80%;
-        }
-    }
-
-</style>
 <div class="container">
-    <div class="loginHeader">
-        <h3> Admin Login Page </h3>
-    </div>
-    <div class="loginWrapper">
-        <form id="loginSection" class="form-horizontal" method="POST" action="{{ route('/auth/login') }}">
-        {{ csrf_field() }}
-            <div class="form-group">
-                <label for="icInput">Enter Admin IC</label>
-                <input type="text" class="form-control" id="ic" name="ic" placeholder="IC">
-            </div>
-            <div class="form-group">
-                <label for="passwordInput">Enter Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-            </div>
-            <button class="submitButton" type="submit" class="btn btn-default">Submit</button>
-            <input type="hidden" name="user_type" value="user">
-        </form>
-    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Login</div>
+                <div class="panel-body">
+                    <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+                        {{ csrf_field() }}
 
+                        <div class="form-group{{ $errors->has('ic') ? ' has-error' : '' }}">
+                            <label for="ic" class="col-md-4 control-label">IC</label>
+
+                            <div class="col-md-6">
+                                <input id="ic" type="ic" class="form-control" name="ic" value="{{ old('ic') }}" required autofocus>
+
+                                @if ($errors->has('ic'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('ic') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                            <label for="password" class="col-md-4 control-label">Password</label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control" name="password" required>
+
+                                @if ($errors->has('password'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-4">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Login
+                                </button>
+
+                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    Forgot Your Password?
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
